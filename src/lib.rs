@@ -186,7 +186,7 @@ impl Default for ShaderCompilationConfig {
             #[cfg(feature = "shaderc")]
             auto_bind: false,
             #[cfg(feature = "naga")]
-            capabilities: Default::default(),
+            capabilities: Capabilities::all(),
             #[cfg(feature = "naga")]
             naga_spirv_version: (1, 0),
             #[cfg(feature = "naga")]
