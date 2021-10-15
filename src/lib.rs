@@ -423,7 +423,7 @@ fn compile(
                             }
                             options.lang_version = cfg.naga_spirv_version;
 
-                            match spv::write_vec(&module, &info, &options) {
+                            match spv::write_vec(&module, &info, &options, None) {
                                 Ok(spv) => {
                                     let feedback = CompilationFeedback { spv, dep_paths: Vec::new() };
                                     Ok(feedback)
