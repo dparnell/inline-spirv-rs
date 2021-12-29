@@ -22,7 +22,7 @@ glsl = ["shaderc"]
 
 [dependencies]
 shaderc = { version = "0.7.0", optional = true }
-naga = { version = "0.7.1", features = ["wgsl-in", "spv-out"], optional = true }
+naga = { version = "0.8.0", features = ["wgsl-in", "spv-out"], optional = true }
 syn = "1.0.38"
 quote = "1.0.7"
 
