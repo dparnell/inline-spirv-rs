@@ -431,7 +431,26 @@ fn compile(
                                 Err(e) => Err(format!("{:?}", e))
                             }
                         },
-                        Err(e) => Err(format!("{:?}", e))
+                        Err(e) => {
+                            extern crate codespan_reporting;
+                            extern crate termcolor;
+
+                            let files = codespan_reporting::files::SimpleFile::new(path.unwrap_or("String Literal"), src);
+                            let config = codespan_reporting::term::Config::default();
+                            let writer = termcolor::StandardStream::stderr(termcolor::ColorChoice::Auto);
+
+                            let diagnostic = codespan_reporting::diagnostic::Diagnostic::error().with_labels(
+                                e
+                                    .spans()
+                                    .map(|(span, desc)| {
+                                        codespan_reporting::diagnostic::Label::primary((), span.to_range().unwrap()).with_message(desc.to_owned())
+                                    })
+                                    .collect(),
+                            );
+
+                            codespan_reporting::term::emit(&mut writer.lock(), &config, &files, &diagnostic).expect("cannot write error");
+                            Err(format!("{:?}", e.into_inner()))
+                        }
                     }
                 },
                 Err(e) => {
