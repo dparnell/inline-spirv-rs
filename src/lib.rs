@@ -402,9 +402,6 @@ fn compile(
 
         #[cfg(feature = "naga")]
         InputSourceLanguage::WGSL => {
-            // silence the compiler warning about path not being used when only wgsl is enabled
-            let _ = path.is_some();
-
             match wgsl::parse_str(&src) {
                 Ok(module) => {
                     // Attempt to validate WGSL, error if invalid
@@ -425,7 +422,13 @@ fn compile(
 
                             match spv::write_vec(&module, &info, &options, None) {
                                 Ok(spv) => {
-                                    let feedback = CompilationFeedback { spv, dep_paths: Vec::new() };
+                                    let feedback = CompilationFeedback {
+                                        spv,
+                                        dep_paths: if let Some(path) = path {
+                                            vec![ String::from(path )]
+                                        } else { Vec::new() }
+                                    };
+
                                     Ok(feedback)
                                 }
                                 Err(e) => Err(format!("{:?}", e))
