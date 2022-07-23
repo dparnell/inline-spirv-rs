@@ -22,7 +22,7 @@ glsl = ["shaderc"]
 
 [dependencies]
 shaderc = { version = "0.7.0", optional = true }
-naga = { version = "0.8.5", features = ["wgsl-in", "spv-out", "validate", "span"], optional = true }
+naga = { version = "0.9.0", features = ["wgsl-in", "spv-out", "validate", "span"], optional = true }
 codespan-reporting = "*"
 termcolor = "*"
 syn = "1.0.38"
